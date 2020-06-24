@@ -41,7 +41,6 @@ public class WeatherService {
        List<FindData> findDataList = new ArrayList<>();
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-//            System.out.println(classLoader.toString());
             InputStream in = classLoader.getResourceAsStream("weather_16_PL_S.json");
             BufferedReader reader = new BufferedReader(new InputStreamReader(in));
             String line = reader.readLine();
@@ -49,7 +48,6 @@ public class WeatherService {
             ObjectMapper mapper = new ObjectMapper();
             while (line != null) {
                 findData = new ObjectMapper().readValue(line, FindData.class);
-//                System.out.println(findData.toString());
                 findDataList.add(findData);
 //                 read next line
                 line = reader.readLine();
@@ -63,7 +61,7 @@ public class WeatherService {
 
     public CityData getDataFromAPI(FindData findData) {
         RestTemplate restTemplate = new RestTemplate();
-        String api_uri = "https://api.openweathermap.org/data/2.5/weather?id=" + Integer.toString(findData.getId()).trim() + "&appid=75b06c0695c8f9827f57991e47c8180d&units=metric";
+        String api_uri = "https://api.openweathermap.org/data/2.5/weather?id=" + Integer.toString(findData.getId()).trim() + "&appid=0c2d81854103f014b371a16c37c8d314&units=metric";
         CityData cityData = restTemplate.getForObject(api_uri,CityData.class);
 //      Image - URL is http://openweathermap.org/img/wn/10d@2x.png
         String image_uri = "https://openweathermap.org/img/wn/" + cityData.getWeather().get(0).getIcon() + ".png";
@@ -72,7 +70,6 @@ public class WeatherService {
         city.setName(findData.getName());
         cityData.setCity(city);
         cityData.setSrc(image_uri);
-//        System.out.println("CD: " + cityData.toString());
         return cityData;
     }
 }
